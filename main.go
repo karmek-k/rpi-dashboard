@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/karmek-k/rpi-dashboard/api"
@@ -10,6 +10,6 @@ import (
 func main() {
 	http.HandleFunc("/", api.DashboardHandler)
 
-	fmt.Println("Server is running on port 8080...")
+	log.Println("Server is running on port 8080...")
 	http.ListenAndServe(":8080", nil)
 }

@@ -2,32 +2,43 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 )
 
+const ERROR_STRING string = "error getting hardware info"
+
 func DashboardHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.Error(w, "404 not found", http.StatusNotFound)
+		return
+	}
+
 	cpuInfo, err := getCPUInfo()
 	if err != nil {
-		fmt.Fprintf(w, "Error getting CPU info: %v", err)
+		log.Printf("error getting CPU info: %v\n", err)
+		http.Error(w, ERROR_STRING, http.StatusInternalServerError)
 		return
 	}
 
 	ramInfo, err := getRAMInfo()
 	if err != nil {
-		fmt.Fprintf(w, "Error getting RAM info: %v", err)
+		log.Printf("error getting RAM info: %v\n", err)
+		http.Error(w, ERROR_STRING, http.StatusInternalServerError)
 		return
 	}
 
 	diskInfo, err := getDiskInfo()
 	if err != nil {
-		fmt.Fprintf(w, "Error getting disk info: %v", err)
+		log.Printf("error getting disk info: %v", err)
+		http.Error(w, ERROR_STRING, http.StatusInternalServerError)
 		return
 	}
 
 	networkInfo, err := getNetworkInfo()
 	if err != nil {
-		fmt.Fprintf(w, "Error getting network info: %v", err)
+		log.Printf("error getting disk info: %v\n", err)
+		http.Error(w, ERROR_STRING, http.StatusInternalServerError)
 		return
 	}
 
